@@ -1,0 +1,127 @@
+/* static/app/css/results.css */
+
+/* --- Base & Navbar (borrowed from styles.css for consistency) --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7fafc;
+    color: #2d3748;
+    margin: 0;
+}
+.navbar { background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 50; }
+.navbar-container { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.navbar-brand { font-size: 1.5rem; font-weight: 700; color: #3b82f6; text-decoration: none; }
+.navbar-menu { display: none; }
+.navbar-menu a { color: #4a5568; text-decoration: none; transition: color 0.2s; margin-left: 1.5rem; }
+.navbar-menu a:hover { color: #3b82f6; }
+.navbar-profile-button { background-color: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; transition: background-color 0.2s; }
+.navbar-profile-button:hover { background-color: #2563eb; }
+.mobile-menu-button { display: block; color: #4a5568; background: none; border: none; cursor: pointer; }
+.mobile-menu { display: none; padding: 0.5rem 1.5rem 1rem; }
+.mobile-menu a { display: block; padding: 0.5rem 0; color: #4a5568; text-decoration: none; }
+.mobile-menu .navbar-profile-button { margin-top: 0.5rem; text-align: center; }
+@media (min-width: 768px) { .navbar-menu { display: flex; align-items: center; } .mobile-menu-button { display: none; } }
+
+/* --- Loading Overlay --- */
+#loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; color: white; font-size: 1.125rem; }
+#loading-overlay.visible { opacity: 1; visibility: visible; }
+.spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #ffffff; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 16px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- Main Content --- */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+.results-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    text-align: center;
+}
+.results-header {
+    padding: 32px;
+    background-color: #4f46e5; /* Indigo */
+    color: white;
+}
+.results-header p {
+    font-weight: 500;
+    opacity: 0.8;
+}
+.results-header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+/* --- Advice Section --- */
+.advice-section {
+    padding: 32px;
+    text-align: left;
+}
+.category-banner {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.category-red { background-color: #fee2e2; color: #b91c1c; }
+.category-yellow { background-color: #fef3c7; color: #b45309; }
+.category-green { background-color: #d1fae5; color: #065f46; }
+.category-gray { background-color: #e5e7eb; color: #4b5563; }
+
+.advice-text {
+    color: #4b5563;
+    line-height: 1.7;
+    white-space: pre-wrap; /* Respects newlines from the AI output */
+}
+
+/* --- Next Step Section --- */
+.next-step-section {
+    background-color: #f9fafb;
+    padding: 32px;
+    border-top: 1px solid #e5e7eb;
+}
+.next-step-section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.next-step-section p {
+    color: #6b7280;
+    margin-top: 4px;
+}
+.button-primary {
+    margin-top: 24px;
+    display: inline-block;
+    width: 100%;
+    background-color: #1f2937;
+    color: white;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.button-primary:hover {
+    background-color: #111827;
+}
+
+/* --- Disclaimer --- */
+.disclaimer {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}

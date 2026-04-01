@@ -1,0 +1,15 @@
+pandas
+matplotlib
+scikit-learn
+numpy
+seaborn
+django
+tensorflow
+opencv-python
+google-generativeai
+djangorestframework
+python-dotenv
+googlemaps
+django-allauth
+celery 
+redis

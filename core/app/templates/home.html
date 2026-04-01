@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMate - Your Personal Health Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Animation for elements fading in on scroll */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-element {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        /* Add a subtle gradient to the hero section background */
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8)), url('https://placehold.co/1920x1080/a0aec0/ffffff?text=Abstract+Health+Background');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{% url 'home_page' %}" class="text-2xl font-bold text-blue-600">MediMate</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="{% url 'home_page' %}" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition">Diagnosis</a>
+                <a href="{% url 'calendar' %}" class="text-gray-600 hover:text-blue-600 transition">Calendar</a>
+                
+                <a href="{% url 'profile' %}" class="text-gray-600 hover:text-blue-600 transition">Profile</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Login</a>
+                    <a href="{% url 'account_signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Sign Up</a>
+                {% endif %}
+
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="{% url 'home_page' %}" class="block py-2 text-gray-600 hover:text-blue-600">Home</a>
+            <a href="{% url 'home' %}" class="block py-2 text-gray-600 hover:text-blue-600">Diagnosis</a>
+            <a href="{% url 'calendar' %}" class="block py-2 text-gray-600 hover:text-blue-600">Calendar</a>
+            <a href="{% url 'profile' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient">
+        <div class="container mx-auto px-6 py-24 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight fade-in-element">Intelligent Symptom Analysis at Your Fingertips</h1>
+            <p class="mt-6 text-lg text-gray-700 max-w-2xl mx-auto fade-in-element" style="animation-delay: 0.2s;">
+                Leverage the power of AI to understand your symptoms, get potential insights, and find the right specialists near you.
+            </p>
+            <a href="{% url 'home' %}" class="mt-10 inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 fade-in-element" style="animation-delay: 0.4s;">
+                Start Your Diagnosis
+            </a>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Our Core Features</h2>
+                <p class="text-gray-600 mt-2">Designed to guide you on your health journey.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Feature 1: Symptom Analysis -->
+                <div class="text-center p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 fade-in-element">
+                    <img src="https://placehold.co/100x100/3B82F6/FFFFFF?text=🧠" alt="Symptom Analysis Icon" class="mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-bold mb-2">AI Symptom Analysis</h3>
+                    <p class="text-gray-600">Select your area of discomfort and answer a series of targeted questions to get AI-driven insights into potential conditions.</p>
+                </div>
+                <!-- Feature 2: Skin Analysis -->
+                <div class="text-center p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 fade-in-element" style="animation-delay: 0.2s;">
+                    <img src="https://placehold.co/100x100/10B981/FFFFFF?text=🔬" alt="Skin Analysis Icon" class="mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-bold mb-2">Skin Condition Identifier</h3>
+                    <p class="text-gray-600">Upload a photo of a skin concern, and our image recognition model will provide a potential classification for skin diseases.</p>
+                </div>
+                <!-- Feature 3: Find Doctors -->
+                <div class="text-center p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 fade-in-element" style="animation-delay: 0.4s;">
+                    <img src="https://placehold.co/100x100/F59E0B/FFFFFF?text=📍" alt="Find Doctors Icon" class="mx-auto rounded-full mb-4">
+                    <h3 class="text-xl font-bold mb-2">Find Nearby Specialists</h3>
+                    <p class="text-gray-600">Based on your results, we'll recommend the right type of specialist and help you find doctors near your location instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section id="disclaimer" class="py-16 bg-red-50 border-t border-b border-red-200">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-red-800">Important Disclaimer</h2>
+            <div class="max-w-3xl mx-auto mt-4 text-red-700 bg-red-100 p-6 rounded-lg shadow">
+                <p><strong>For Informational Purposes Only:</strong> MediMate provides AI-generated insights based on the data you provide. These results are not a medical diagnosis.</p>
+                <p class="mt-2"><strong>Consult a Professional:</strong> This tool does not replace professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+                <p class="mt-2">Never disregard professional medical advice or delay in seeking it because of something you have read on this application.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 MediMate. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // JavaScript for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-element');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-element').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

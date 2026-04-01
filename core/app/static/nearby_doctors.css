@@ -1,0 +1,237 @@
+/* static/app/css/styles.css */
+
+/* --- Navigation Bar --- */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.navbar-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem; /* 16px 24px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    color: #3b82f6; /* A nice blue */
+    text-decoration: none;
+}
+
+.navbar-menu {
+    display: none; /* Hidden on mobile by default */
+}
+
+.navbar-menu a {
+    color: #4a5568;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    margin-left: 1.5rem; /* 24px */
+}
+
+.navbar-menu a:hover {
+    color: #3b82f6;
+}
+
+.navbar-profile-button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem; /* 8px 16px */
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.navbar-profile-button:hover {
+    background-color: #2563eb;
+}
+
+.mobile-menu-button {
+    display: block;
+    color: #4a5568;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+    padding: 0.5rem 1.5rem 1rem; /* 8px 24px 16px */
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 0.5rem 0;
+    color: #4a5568;
+    text-decoration: none;
+}
+
+.mobile-menu .navbar-profile-button {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* --- Responsive styles for Navbar --- */
+@media (min-width: 768px) {
+    .navbar-menu {
+        display: flex;
+        align-items: center;
+    }
+    .mobile-menu-button {
+        display: none;
+    }
+}
+
+
+/* --- General Body and Container --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7fafc;
+    color: #2d3748;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header --- */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.header p {
+    font-size: 1.125rem;
+    color: #718096;
+    margin-top: 8px;
+}
+
+.header strong {
+    color: #2b6cb0;
+}
+
+/* --- Doctor Cards & Grid --- */
+.error-box {
+    background-color: #fff5f5;
+    border-left: 4px solid #e53e3e;
+    color: #c53030;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.doctor-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-right: 16px;
+}
+
+.rating-badge {
+    display: flex;
+    align-items: center;
+    background-color: #f6e05e;
+    color: #975a16;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+}
+
+.star-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.card-body {
+    padding: 24px;
+    flex-grow: 1;
+}
+
+.address {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.distance {
+    margin-top: 12px;
+    color: #4a5568;
+    font-size: 0.875rem;
+}
+
+.card-footer {
+    padding: 16px 24px;
+    background-color: #fdfdfe;
+    border-top: 1px solid #e2e8f0;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    gap: 24px;
+}
+
+.contact-link {
+    color: #2b6cb0;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contact-link:hover {
+    color: #2c5282;
+    text-decoration: underline;
+}
+
+.no-results-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+    text-align: center;
+    color: #718096;
+}

@@ -1,0 +1,148 @@
+/* static/allauth/overright.css */
+
+/* --- Base Styles --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7fafc; /* Light gray background */
+    color: #2d3748;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* --- Main Content Card --- */
+.content {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 450px;
+    margin: 20px;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+/* --- Headings --- */
+h1, h2 {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 24px;
+}
+
+/* --- Form Styling --- */
+form {
+    text-align: left;
+}
+
+form p {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4a5568;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Important for padding and width */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* --- Checkbox Styling --- */
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+.form-check input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+/* --- Button Styling --- */
+.button-primary {
+    display: block;
+    width: 100%;
+    background-color: #3b82f6;
+    color: white;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 1rem;
+    margin-top: 24px;
+}
+
+.button-primary:hover {
+    background-color: #2563eb;
+}
+
+/* --- Link Styling --- */
+a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Helper and Social Account Text --- */
+.login-help-text, .socialaccount_ballot {
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.socialaccount_ballot hr {
+    margin: 16px 0;
+}
+
+/* --- Error Messages --- */
+.errorlist {
+    list-style-type: none;
+    padding: 12px;
+    margin: 0 0 16px 0;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+
+/* --- Top Navigation (from your base.html) --- */
+nav {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+

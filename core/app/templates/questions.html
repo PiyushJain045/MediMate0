@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire - MediMate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'questions.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{% url 'home_page' %}" class="text-2xl font-bold text-blue-600">MediMate</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="{% url 'home_page' %}" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition">Diagnosis</a>
+                <a href="{% url 'calendar' %}" class="text-gray-600 hover:text-blue-600 transition">Calendar</a>
+                
+                <a href="{% url 'profile' %}" class="text-gray-600 hover:text-blue-600 transition">Profile</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Login</a>
+                    <a href="{% url 'account_signup' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Sign Up</a>
+                {% endif %}
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="{% url 'home_page' %}" class="block py-2 text-gray-600 hover:text-blue-600">Home</a>
+            <a href="{% url 'home' %}" class="block py-2 text-blue-600 font-semibold">Diagnosis</a>
+            <a href="{% url 'calendar' %}" class="block py-2 text-gray-600 hover:text-blue-600">Calendar</a>
+            <a href="{% url 'profile' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Analyzing your answers...</p>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        {% if error %}
+            <div class="question-card error-state">
+                <h1>An Error Occurred</h1>
+                <p>{{ error }}</p>
+                <a href="{% url 'home' %}" class="button-primary">Go Back</a>
+            </div>
+        {% else %}
+            <div class="question-card fade-in-element">
+                <!-- Progress Bar -->
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <div id="progress-indicator" class="progress-text">Question 1 of X</div>
+                
+                <div id="question-area">
+                    <h2 id="question-text"></h2>
+                    <div id="answer-buttons" class="answer-buttons">
+                        <button onclick="handleAnswer(0)" class="answer-button no-button">No</button>
+                        <button onclick="handleAnswer(1)" class="answer-button yes-button">Yes</button>
+                    </div>
+                </div>
+                
+                <form id="final-symptoms-form" method="POST" action="{% url 'questions' %}" class="hidden">
+                    {% csrf_token %}
+                </form>
+            </div>
+        {% endif %}
+    </main>
+
+    <script>
+        // --- Navigation Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Questionnaire Logic ---
+        {% if questions_json %}
+            const questions = JSON.parse('{{ questions_json|escapejs }}');
+            let currentQuestionIndex = 0;
+            const answers = {};
+
+            const questionTextEl = document.getElementById('question-text');
+            const progressIndicatorEl = document.getElementById('progress-indicator');
+            const progressBarEl = document.getElementById('progress-bar');
+            const formEl = document.getElementById('final-symptoms-form');
+            const questionAreaEl = document.getElementById('question-area');
+            const loadingOverlay = document.getElementById('loading-overlay');
+
+            function updateProgress() {
+                const progressPercentage = ((currentQuestionIndex) / questions.length) * 100;
+                progressBarEl.style.width = `${progressPercentage}%`;
+                progressIndicatorEl.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            }
+
+            function displayQuestion() {
+                if (currentQuestionIndex < questions.length) {
+                    updateProgress();
+                    questionAreaEl.classList.remove('visible');
+                    setTimeout(() => {
+                        questionTextEl.textContent = questions[currentQuestionIndex].text;
+                        questionAreaEl.classList.add('visible');
+                    }, 200);
+                } else {
+                    endQuestionnaire();
+                }
+            }
+
+            function handleAnswer(answerValue) {
+                const currentQuestion = questions[currentQuestionIndex];
+                answers[currentQuestion.key] = answerValue;
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+
+            function endQuestionnaire() {
+                progressBarEl.style.width = '100%';
+                progressIndicatorEl.textContent = `Completed ${questions.length} of ${questions.length}`;
+                loadingOverlay.classList.add('visible');
+                
+                for (const [key, value] of Object.entries(answers)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    formEl.appendChild(input);
+                }
+
+                setTimeout(() => {
+                    formEl.submit();
+                }, 1500);
+            }
+
+            window.onload = displayQuestion;
+        {% endif %}
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+{% load static %}
+{% load custom_filters %} <!-- Load the custom filter -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Calendar - MediMate</title>
+    <link rel="stylesheet" href="{% static 'calender.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{% url 'home_page' %}" class="navbar-brand">MediMate</a>
+            <div class="navbar-menu">
+                <a href="{% url 'home_page' %}">Home</a>
+                <a href="{% url 'home' %}">Diagnosis</a>
+                <a href="{% url 'calendar' %}" class="active">Calendar</a>
+                <a href="{% url 'profile' %}" class="navbar-profile-button">Profile</a>
+            </div>
+            <button id="mobile-menu-button" class="mobile-menu-button">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="{% url 'home_page' %}">Home</a>
+            <a href="{% url 'home' %}">Diagnosis</a>
+            <a href="{% url 'calendar' %}" class="active">Calendar</a>
+            <a href="{% url 'profile' %}" class="navbar-profile-button">Profile</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Appointment Creation Form -->
+        <aside class="appointment-form-container">
+            <h2>Add New Appointment</h2>
+            <form method="POST" action="{% url 'calendar' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Appointment Title</label>
+                    <input type="text" id="title" name="title" placeholder="e.g., Dentist Check-up" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <button type="submit" class="button-primary">Save Appointment</button>
+            </form>
+            <!-- Success/Error Messages -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </aside>
+
+        <!-- Calendar Display -->
+        <section class="calendar-container">
+            <header class="calendar-header">
+                <h1>{{ month_name }}</h1>
+            </header>
+            <div class="calendar-grid">
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in calendar_grid %}
+                        <tr>
+                            {% for day in week %}
+                                {% if day == 0 %}
+                                    <td class="noday">&nbsp;</td>
+                                {% else %}
+                                    {% with appointments=appointments_map|get_item:day %}
+                                    <td class="{% if day == today.day and month_name|slice:':-5' == today|date:'F' %}today{% endif %}">
+                                        <div class="day-number">{{ day }}</div>
+                                        {% if appointments %}
+                                        <ul class="appointments-list">
+                                            {% for appt_title in appointments %}
+                                            <li>{{ appt_title }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                    </td>
+                                    {% endwith %}
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- Navigation Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+        });
+    </script>
+</body>
+</html>

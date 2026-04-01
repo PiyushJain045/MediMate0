@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - MediMate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{% url 'home_page' %}" class="text-2xl font-bold text-blue-600">MediMate</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="{% url 'home_page' %}" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition">Diagnosis</a>
+                <a href="{% url 'calendar' %}" class="text-gray-600 hover:text-blue-600 transition">Calendar</a>
+                
+                <a href="{% url 'profile' %}" class="text-gray-600 hover:text-blue-600 transition">Profile</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Login</a>
+                    <a href="{% url 'account_signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Sign Up</a>
+                {% endif %}
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="{% url 'home_page' %}" class="block py-2 text-gray-600 hover:text-blue-600">Home</a>
+            <a href="{% url 'home' %}" class="block py-2 text-gray-600 hover:text-blue-600">Diagnosis</a>
+            <a href="{% url 'calendar' %}" class="block py-2 text-gray-600 hover:text-blue-600">Calendar</a>
+            <a href="{% url 'profile' %}" class="block mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto max-w-2xl py-10 px-4">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center mb-8">Your Profile</h1>
+
+            <!-- Success Message Display -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative mb-6" role="alert">
+                        <span class="block sm:inline">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Profile Form -->
+            <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Profile Photo Section -->
+                <div class="text-center">
+                    <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-gray-200">
+                    <label for="profile_photo" class="cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg transition">
+                        Change Photo
+                        <input type="file" name="profile_photo" id="profile_photo" class="hidden" accept="image/*">
+                    </label>
+                </div>
+
+                <!-- Username (Read-only) -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" value="{{ request.user.username }}" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm cursor-not-allowed">
+                </div>
+
+                <!-- Email (Read-only) -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" value="{{ request.user.email }}" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm cursor-not-allowed">
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                    <input type="number" name="age" id="age" value="{{ profile.age|default_if_none:'' }}" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Family Doctor -->
+                <div>
+                    <label for="family_doctor" class="block text-sm font-medium text-gray-700">Family Doctor's Name (Optional)</label>
+                    <input type="text" name="family_doctor" id="family_doctor" value="{{ profile.family_doctor|default_if_none:'' }}" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // --- Navigation Menu Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
