@@ -1,4 +1,4 @@
-Dploying on AWS EC2 under work
+Deploying on AWS EC2 under work
 
 # MediMate: Your Personal Health Companion
 
