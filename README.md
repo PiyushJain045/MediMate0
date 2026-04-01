@@ -1,3 +1,5 @@
+Dploying on AWS EC2 under work
+
 # MediMate: Your Personal Health Companion
 
 MediMate is an intelligent, user-centric web application designed to serve as a personal health companion. It empowers users to better understand their health concerns through AI-driven diagnostic pathways, helps them find nearby medical specialists, and allows them to manage their appointments with automated reminders.
