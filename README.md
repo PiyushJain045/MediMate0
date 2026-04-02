@@ -1,4 +1,4 @@
-Deploying on AWS EC2 under work
+AWS EC2: http://54.221.108.215:8000/
 
 # MediMate: Your Personal Health Companion
 
